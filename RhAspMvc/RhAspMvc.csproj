@@ -171,9 +171,9 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MedecinsController.cs" />
+    <Compile Include="Controllers\SpecialitesController.cs" />
     <Compile Include="DAL\RhContext.cs" />
     <Compile Include="DAL\RhInitialize.cs" />
-    <Compile Include="DAL\RhMigration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -181,6 +181,8 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Medecin.cs" />
+    <Compile Include="Models\Repository\ServiceRepository.cs" />
+    <Compile Include="Models\Repository\SpecialiteRepository.cs" />
     <Compile Include="Models\Service.cs" />
     <Compile Include="Models\Specialite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -247,6 +249,13 @@
     <Content Include="Views\Medecins\Details.cshtml" />
     <Content Include="Views\Medecins\Edit.cshtml" />
     <Content Include="Views\Medecins\Index.cshtml" />
+    <Content Include="Views\Medecins\Affecter.cshtml" />
+    <Content Include="Views\Medecins\Specialite.cshtml" />
+    <Content Include="Views\Specialites\Create.cshtml" />
+    <Content Include="Views\Specialites\Delete.cshtml" />
+    <Content Include="Views\Specialites\Details.cshtml" />
+    <Content Include="Views\Specialites\Edit.cshtml" />
+    <Content Include="Views\Specialites\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

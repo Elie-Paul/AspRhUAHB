@@ -12,8 +12,6 @@ namespace RhAspMvc.Models
         public int Id { get; set; }
         [Required]
         public string Libelle { get; set; }
-        public int ServiceId { get; set; }
-        [ForeignKey("ServiceId")]
         public virtual Service Service { get; set; }
         public ICollection<Medecin> Medecins { get; set; }
     }

@@ -26,32 +26,43 @@
         <th>
             @Html.DisplayNameFor(model => model.Salaire)
         </th>
+        <th>
+            @Html.DisplayName("Service")
+        </th>
+        <th>
+            @Html.DisplayName("Actions")
+        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Matricule)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Prenom)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nom)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateNaiss)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Salaire)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Matricule)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Prenom)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Nom)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DateNaiss)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Salaire)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Service.Libelle)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-success" }) |
+        @Html.ActionLink("Details", "Details", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-primary" }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-danger" }) |
+        @Html.ActionLink("Affecter", "Affecter", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-warning" }) |
+        @Html.ActionLink("Specialite", "Specialite", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-primary" }) |
+    </td>
+</tr>
 }
 
 </table>

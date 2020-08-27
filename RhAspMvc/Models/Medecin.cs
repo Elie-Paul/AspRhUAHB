@@ -17,10 +17,12 @@ namespace RhAspMvc.Models
         [Required]
         public string Nom { get; set; }
         [Required]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DateNaiss { get; set; }
         [Required]
         public int Salaire { get; set; }
         public ICollection<Specialite> Specialites { get; set; }
+        [Required]
         public int ServiceId { get; set; }
         [ForeignKey("ServiceId")]
         public virtual Service Service { get; set; }
