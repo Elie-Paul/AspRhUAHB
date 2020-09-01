@@ -30,6 +30,13 @@
         </div>
     </div>
     <div class="form-group">
+        @Html.Label("Role", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("RoleName", (SelectList)ViewBag.roles, "Selectionnez le role", new { @class = "form-control" })
+            @Html.ValidationMessage("RoleName", "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" class="btn btn-default" value="S'inscrire" />
         </div>

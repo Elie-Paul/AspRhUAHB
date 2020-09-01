@@ -171,6 +171,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MedecinsController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SpecialitesController.cs" />
     <Compile Include="DAL\RhContext.cs" />
     <Compile Include="DAL\RhInitialize.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="Models\Service.cs" />
     <Compile Include="Models\Specialite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AccessDeniedAuthorizeAttribute.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +258,10 @@
     <Content Include="Views\Specialites\Details.cshtml" />
     <Content Include="Views\Specialites\Edit.cshtml" />
     <Content Include="Views\Specialites\Index.cshtml" />
+    <Content Include="Views\Role\Create.cshtml" />
+    <Content Include="Views\Role\Edit.cshtml" />
+    <Content Include="Views\Role\Index.cshtml" />
+    <Content Include="Views\Account\AccessDenied.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

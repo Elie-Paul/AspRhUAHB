@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -6,6 +8,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using RhAspMvc.DAL;
 using RhAspMvc.Models;
 
 namespace RhAspMvc.Controllers
@@ -385,5 +388,23 @@ namespace RhAspMvc.Controllers
         }
 
 #endregion
+    }
+
+    public static class ListProvider
+    {
+        public static List<SelectListItem> Roles = new List<SelectListItem>
+                                                   {
+                                                       new SelectListItem { Text = "Super Admin", Value = "0" },
+                                                       new SelectListItem { Text = "Admin", Value = "1" },
+                                                       new SelectListItem { Text = "Author", Value = "2" }
+                                                   };
+
+        public static List<SelectListItem> GetRoles(short roleId)
+        {
+            Roles.ForEach(r => r.Selected = false);
+            var role = Roles.Single(r => r.Value == roleId.ToString(CultureInfo.InvariantCulture));
+            role.Selected = true;
+            return Roles;
+        }
     }
 }

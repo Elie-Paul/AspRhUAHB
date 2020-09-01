@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using RhAspMvc.DAL;
 using RhAspMvc.Models;
 using RhAspMvc.Models.Repository;
+using RhAspMvc.Services;
 
 namespace RhAspMvc.Controllers
 {
@@ -17,12 +18,14 @@ namespace RhAspMvc.Controllers
         private RhContext db = new RhContext();
 
         // GET: Medecins
+        [AccessDeniedAuthorizeAttribute(Roles = "Admin,Medecin")]
         public ActionResult Index()
         {
             return View(db.Medecins.ToList());
         }
 
         // GET: Medecins/Details/5
+        [AccessDeniedAuthorizeAttribute(Roles = "Admin")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -38,6 +41,7 @@ namespace RhAspMvc.Controllers
         }
 
         // GET: Medecins/Create
+        [AccessDeniedAuthorizeAttribute(Roles = "Admin")]
         public ActionResult Create()
         {
             ViewBag.services = new SelectList(db.Services.AsQueryable(), "Id", "Libelle");
@@ -50,6 +54,7 @@ namespace RhAspMvc.Controllers
         // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AccessDeniedAuthorizeAttribute(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "Id,Matricule,Prenom,Nom,DateNaiss,Salaire,ServiceId")] Medecin medecin, int[] specialites)
         {
             if (ModelState.IsValid)
@@ -68,6 +73,7 @@ namespace RhAspMvc.Controllers
         }
 
         // GET: Medecins/Edit/5
+        [AccessDeniedAuthorizeAttribute(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -87,6 +93,7 @@ namespace RhAspMvc.Controllers
         // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AccessDeniedAuthorizeAttribute(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "Id,Matricule,Prenom,Nom,DateNaiss,Salaire")] Medecin medecin)
         {
             if (ModelState.IsValid)
@@ -99,6 +106,7 @@ namespace RhAspMvc.Controllers
         }
 
         // GET: Medecins/Delete/5
+        [AccessDeniedAuthorizeAttribute(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -116,6 +124,7 @@ namespace RhAspMvc.Controllers
         // POST: Medecins/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [AccessDeniedAuthorizeAttribute(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Medecin medecin = db.Medecins.Find(id);
@@ -123,7 +132,7 @@ namespace RhAspMvc.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
+        [AccessDeniedAuthorizeAttribute(Roles = "Admin")]
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -133,16 +142,7 @@ namespace RhAspMvc.Controllers
             base.Dispose(disposing);
         }
 
-        // GET: Medecins/Services/5
-        public JsonResult FindSpecialitesByServiceId(int id)
-        {
-            SpecialiteRepository specialiteRepository = new SpecialiteRepository();
-            List<Specialite> specialites = new List<Specialite>();
-            specialiteRepository.FindSpecialiteByServiceId(id).ForEach(
-                sp => specialites.Add(new Specialite { Id = sp.Id, Libelle = sp.Libelle }));
-            return Json(specialites,JsonRequestBehavior.AllowGet);
-        }
-
+        [AccessDeniedAuthorizeAttribute(Roles ="Admin")]
         public ActionResult Affecter(int? id)
         {
             if (id == null)
@@ -162,6 +162,7 @@ namespace RhAspMvc.Controllers
         }
 
         [HttpPost]
+        [AccessDeniedAuthorizeAttribute(Roles ="Admin")]
         public ActionResult Affecter(int Id, int ServiceId)
         {
             using(var db = new RhContext())
@@ -181,6 +182,7 @@ namespace RhAspMvc.Controllers
             return RedirectToAction("Index");
         }
 
+        [AccessDeniedAuthorizeAttribute(Roles ="Admin")]
         public ActionResult Specialite(int? id)
         {
             if (id == null)
@@ -207,6 +209,7 @@ namespace RhAspMvc.Controllers
         }
 
         [HttpPost]
+        [AccessDeniedAuthorizeAttribute(Roles ="Admin")]
         public ActionResult Specialite(int Id, int[] specialites)
         {
 
@@ -222,6 +225,17 @@ namespace RhAspMvc.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        // GET: Medecins/Services/5
+        [AllowAnonymous]
+        public JsonResult FindSpecialitesByServiceId(int id)
+        {
+            SpecialiteRepository specialiteRepository = new SpecialiteRepository();
+            List<Specialite> specialites = new List<Specialite>();
+            specialiteRepository.FindSpecialiteByServiceId(id).ForEach(
+                sp => specialites.Add(new Specialite { Id = sp.Id, Libelle = sp.Libelle }));
+            return Json(specialites, JsonRequestBehavior.AllowGet);
         }
 
     }

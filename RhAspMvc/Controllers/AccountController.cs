@@ -5,9 +5,12 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
+using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using RhAspMvc.DAL;
 using RhAspMvc.Models;
 
 namespace RhAspMvc.Controllers
@@ -139,6 +142,7 @@ namespace RhAspMvc.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewBag.roles = new SelectList(new ApplicationDbContext().Roles.AsQueryable(), "Name", "Name");
             return View();
         }
 
@@ -147,7 +151,7 @@ namespace RhAspMvc.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, string RoleName)
         {
             if (ModelState.IsValid)
             {
@@ -156,19 +160,22 @@ namespace RhAspMvc.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // Pour plus d'informations sur l'activation de la confirmation de compte et de la réinitialisation de mot de passe, visitez https://go.microsoft.com/fwlink/?LinkID=320771
                     // Envoyer un message électronique avec ce lien
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirmez votre compte", "Confirmez votre compte en cliquant <a href=\"" + callbackUrl + "\">ici</a>");
 
+                    await UserManager.AddToRoleAsync(user.Id, RoleName);
                     return RedirectToAction("Index", "Home");
                 }
+                ViewBag.roles = new SelectList(new ApplicationDbContext().Roles.AsQueryable(), "Name", "Name");
                 AddErrors(result);
             }
 
             // Si nous sommes arrivés là, un échec s’est produit. Réafficher le formulaire
+            ViewBag.roles = new SelectList(new ApplicationDbContext().Roles.AsQueryable(), "Name", "Name");
             return View(model);
         }
 
@@ -421,6 +428,11 @@ namespace RhAspMvc.Controllers
             }
 
             base.Dispose(disposing);
+        }
+        
+        public ActionResult AccessDenied()
+        {
+            return View();
         }
 
         #region Applications auxiliaires
